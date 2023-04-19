@@ -21,11 +21,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
     var enableSettings: SwitchPreferenceCompat? = null
     private var floatingWordService: FloatingWordService? = null
 
+    private val appSettings: AppSettings by lazy {
+        AppSettings(requireContext())
+    }
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(
             componentName: ComponentName, service: IBinder
         ) {
             floatingWordService = (service as FloatingWordService.LocalBinder).getService()
+            if (appSettings.isFloatWindowEnabled) {
+                floatingWordService?.setEnable(true)
+            }
         }
 
         override fun onServiceDisconnected(componentName: ComponentName) {
@@ -33,9 +39,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private val appSettings: AppSettings by lazy {
-        AppSettings(requireContext())
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val manager: PreferenceManager = preferenceManager
@@ -74,11 +77,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
         /*TODO: we can set it to be draggable only when this fragment is on the top*/
-        val draggableSettings: SwitchPreferenceCompat? =
-            findPreference(AppSettings.KEY_FLOAT_WINDOW_DRAGGABLE)
-        draggableSettings?.onPreferenceChangeListener =
+        val darkModeSwitch: SwitchPreferenceCompat? =
+            findPreference(AppSettings.KEY_DARK_MODE)
+        darkModeSwitch?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
-                Timber.d("draggableSettings newValue: $newValue")
+                Timber.d("Dark mode settings newValue: $newValue")
                 floatingWordService?.updateSettings(appSettings.getFloatSetting())
                 true
             }

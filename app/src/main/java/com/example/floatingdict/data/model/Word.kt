@@ -7,6 +7,10 @@ sealed class Word(
     open val translation: String,
     open val bncLevel: Int,
 ) {
+    fun toFloatingString(): String {
+        return "$wordContent  $phonetic_US  $translation"
+    }
+
     data class SimpleWord(
         override val wordID: String,
         override val wordContent: String,

@@ -1,23 +1,35 @@
 package com.example.floatingdict.floating
 
-import android.app.Activity
 import android.app.Service
+import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.FrameLayout
+import com.example.floatingdict.R
 import com.example.floatingdict.data.model.FloatSetting
-import timber.log.Timber
+import com.example.floatingdict.data.model.Word
+import com.example.floatingdict.floating.view.MarqueeTextView
+import com.example.floatingdict.settings.AppSettings
 
 class FloatingManager {
+    private var isFloatingViewAdded: Boolean = false
     var settings: FloatSetting? = null
 
-    lateinit var windowManager: WindowManager
+    private lateinit var windowManager: WindowManager
     lateinit var params: WindowManager.LayoutParams
     lateinit var frameLayout: FrameLayout
+    lateinit var applicationContext: Context
+    var marqueeTextView: MarqueeTextView? = null
 
-    private fun initWindow(context: Activity) {
+    fun init(context: Context, appSettings: AppSettings) {
+        initWindow(context)
+        settings = appSettings.getFloatSetting()
+    }
+
+    private fun initWindow(context: Context) {
+        applicationContext = context.applicationContext
         windowManager = context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
         params = WindowManager.LayoutParams().apply {
 
@@ -38,16 +50,39 @@ class FloatingManager {
         }
     }
 
-    fun setEnable(floatWindowEnabled: Boolean, floatSetting: FloatSetting) {
-        if (floatWindowEnabled) {
+    fun setEnable(floatWindowEnabled: Boolean) {
+        if (marqueeTextView != null && isFloatingViewAdded) {
+            windowManager.removeView(marqueeTextView)
+        }
 
+        if (floatWindowEnabled) {
+            if(marqueeTextView==null) {
+                marqueeTextView = MarqueeTextView(applicationContext)
+            }
+            settings?.also { updateSettings(it) }
+            marqueeTextView?.text = " Ready? XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+            windowManager.addView(marqueeTextView, params)
+            isFloatingViewAdded = true
         } else {
-            windowManager.removeView(frameLayout)
+            isFloatingViewAdded = false
         }
     }
 
     fun updateSettings(floatSetting: FloatSetting) {
-        Timber.d("updateSettings: $floatSetting")
+        marqueeTextView?.apply {
+            val textColor =
+                if (floatSetting.darkMode) context.getColor(R.color.white) else context.getColor(R.color.black)
+            val bgColor =
+                if (floatSetting.darkMode) context.getColor(R.color.black) else context.getColor(R.color.white)
+            setTextColor(textColor)
+            setBackgroundColor(bgColor)
+        }
+    }
+
+    fun updateWord(word: Word) {
+        marqueeTextView?.apply {
+            text = word.toFloatingString()
+        }
     }
 
     companion object {

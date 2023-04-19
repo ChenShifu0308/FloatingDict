@@ -1,8 +1,7 @@
 package com.example.floatingdict.settings
 
-import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.example.floatingdict.R
 import com.example.floatingdict.data.db.DictDatabase
+import com.example.floatingdict.data.model.Word
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -40,9 +40,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main),
     private fun testDB() {
         lifecycleScope.launchWhenResumed {
             withContext(Dispatchers.IO) {
-                val db = DictDatabase(context = getApplicationContext());
-                val allWords: Cursor? = db.getWords()
-                Timber.d("All words count: ${allWords?.count}")
+                val db = DictDatabase.getInstance(applicationContext);
+                val allWords: List<Word> = db.getWordByBNCLevel(from = 1, to = 1000)
+                Timber.d("All words count: ${allWords.size}")
             }
         }
     }

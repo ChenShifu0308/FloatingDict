@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.example.floatingdict.R
+import com.example.floatingdict.settings.AppSettings.Companion.PREFERENCES_FILE_NAME
 
 class SettingsFragment : PreferenceFragmentCompat() {
     private val sharedPreferences: SharedPreferences by lazy {
@@ -44,9 +45,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
                 true
             }
-    }
-
-    companion object {
-        const val PREFERENCES_FILE_NAME = "settings"
     }
 }

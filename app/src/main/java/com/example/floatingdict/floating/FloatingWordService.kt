@@ -85,6 +85,7 @@ class FloatingWordService : LifecycleService() {
             Timber.d("No need to update word list.")
         } else {
             // Refresh the word list.
+            currentIndex = 0 // Reset the index.
             initWordList()
         }
     }
@@ -134,6 +135,6 @@ class FloatingWordService : LifecycleService() {
     }
 
     companion object {
-        private const val UPDATE_DURATION = 3000L
+        private const val UPDATE_DURATION = 5000L
     }
 }

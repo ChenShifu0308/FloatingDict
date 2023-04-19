@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import androidx.core.os.HandlerCompat.postDelayed
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -97,11 +98,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
         darkModeSwitch?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
                 Timber.d("Dark mode settings newValue: $newValue")
-                Handler().post() {
-                    floatingWordService?.updateSettings(appSettings.getFloatSetting())
-                }
+                updateSettings()
                 true
             }
+
+        /*Index setting*/
+        val startIndexPreference: EditTextPreference? =
+            findPreference(AppSettings.KEY_WORD_INDEX_START)
+        startIndexPreference?.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                Timber.d("Start index settings newValue: $newValue")
+                updateSettings()
+                true
+            }
+        val endIndexPreference: EditTextPreference? = findPreference(AppSettings.KEY_WORD_INDEX_END)
+        endIndexPreference?.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                Timber.d("End index settings newValue: $newValue")
+                updateSettings()
+                true
+            }
+    }
+
+    private fun updateSettings() {
+        Handler().post() {
+            floatingWordService?.updateSettings(appSettings.getFloatSetting())
+        }
     }
 
     private fun checkPermission(activity: Activity) {

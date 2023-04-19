@@ -79,7 +79,7 @@ class DictDatabase(context: Context) :
 
         private const val TABLE_NAME = "Common_Words"
 
-        const val MAX_WORD_LEVEL = 20000
+        const val MAX_WORD_LEVEL = 49892
 
         /*Column Keys*/
         const val WORD_ID = "wordID"

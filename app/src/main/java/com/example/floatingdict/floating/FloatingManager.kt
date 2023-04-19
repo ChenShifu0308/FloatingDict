@@ -12,7 +12,7 @@ import android.view.WindowManager
 import com.example.floatingdict.R
 import com.example.floatingdict.data.model.FloatSetting
 import com.example.floatingdict.data.model.Word
-import com.example.floatingdict.floating.view.MarqueeTextView
+import com.example.floatingdict.floating.view.FloatingView
 import com.example.floatingdict.settings.AppSettings
 
 class FloatingManager {
@@ -22,7 +22,7 @@ class FloatingManager {
     private lateinit var windowManager: WindowManager
     lateinit var params: WindowManager.LayoutParams
     lateinit var applicationContext: Context
-    var marqueeTextView: MarqueeTextView? = null
+    private var floatView: FloatingView? = null
 
     fun init(context: Context, appSettings: AppSettings) {
         initWindow(context)
@@ -55,21 +55,20 @@ class FloatingManager {
 
     @SuppressLint("ClickableViewAccessibility")
     fun setEnable(floatWindowEnabled: Boolean) {
-        if (marqueeTextView != null && isFloatingViewAdded) {
-            windowManager.removeView(marqueeTextView)
+        if (floatView != null && isFloatingViewAdded) {
+            windowManager.removeView(floatView)
         }
 
         if (floatWindowEnabled) {
-            if (marqueeTextView == null) {
-                marqueeTextView = MarqueeTextView(applicationContext).also {
+            if (floatView == null) {
+                floatView = FloatingView(applicationContext).also {
                     it.setOnTouchListener(FloatingOnTouchListener())
                 }
             }
             settings?.also { updateSettings(it) }
-            marqueeTextView?.text = " Ready? "
-            params.x = 200
+            params.x = 80
             params.y = 0
-            windowManager.addView(marqueeTextView, params)
+            windowManager.addView(floatView, params)
             isFloatingViewAdded = true
         } else {
             isFloatingViewAdded = false
@@ -78,7 +77,7 @@ class FloatingManager {
 
     fun updateSettings(floatSetting: FloatSetting) {
         settings = floatSetting
-        marqueeTextView?.apply {
+        floatView?.apply {
             val textColor =
                 if (floatSetting.darkMode) context.getColor(R.color.white) else context.getColor(R.color.black)
             val bgRes =
@@ -91,14 +90,14 @@ class FloatingManager {
         } else {
             params.flags = params.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         }
-        if (marqueeTextView != null && isFloatingViewAdded) {
-            windowManager.updateViewLayout(marqueeTextView, params)
+        if (floatView != null && isFloatingViewAdded) {
+            windowManager.updateViewLayout(floatView, params)
         }
     }
 
     fun updateWord(word: Word) {
-        marqueeTextView?.apply {
-            text = word.toFloatingString()
+        floatView?.apply {
+            setText(word.wordContent, word.toFloatingString())
         }
     }
 

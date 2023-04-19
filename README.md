@@ -1,4 +1,5 @@
 # Floating Dictionary
+[中文](#浮动背单词)
 
 I always want to have a dictionary to have the feature of reciting words with a floating window,
 which can be always on top of other windows.
@@ -106,6 +107,7 @@ It has the basic features below:
 
 - 现在权限已经被授予。
 <img decoding="async" src="./doc/permission_granted.jpeg" width="40%">
+
 - 您可以更改浮动视图的主题。
 
 |  浅色模式  | 深色模式  |

@@ -12,9 +12,9 @@
             app:key="float_window_enable"
             app:summary="@string/summary_float_window_enable"
             app:title="@string/title_float_window_enable" />
-<!--        <SwitchPreferenceCompat-->
-<!--            app:key="float_window_draggable"-->
-<!--            app:title="@string/title_float_window_draggable" />-->
+        <!--        <SwitchPreferenceCompat-->
+        <!--            app:key="float_window_draggable"-->
+        <!--            app:title="@string/title_float_window_draggable" />-->
 
         <SwitchPreferenceCompat
             app:key="dark_mode"
@@ -34,12 +34,10 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/reset">
-        <Preference
-            app:key="reset_button"
-            app:summary="@string/summary_reset_button"
-            app:title="@string/title_reset_button" />
-    </PreferenceCategory>
-
-
+    <!--    <PreferenceCategory app:title="@string/reset">-->
+    <!--        <Preference-->
+    <!--            app:key="reset_button"-->
+    <!--            app:summary="@string/summary_reset_button"-->
+    <!--            app:title="@string/title_reset_button" />-->
+    <!--    </PreferenceCategory>-->
 </PreferenceScreen>

@@ -8,7 +8,7 @@ sealed class Word(
     open val bncLevel: Int,
 ) {
     fun toFloatingString(): String {
-        return "$wordContent  $phonetic_US  $translation"
+        return "$wordContent  $phonetic_US  ${translation.replace("n", "")}"
     }
 
     data class SimpleWord(

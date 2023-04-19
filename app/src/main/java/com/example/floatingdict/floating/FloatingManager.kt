@@ -66,8 +66,8 @@ class FloatingManager {
                 }
             }
             settings?.also { updateSettings(it) }
-            marqueeTextView?.text = " Ready? XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            params.x = 0
+            marqueeTextView?.text = " Ready? "
+            params.x = 200
             params.y = 0
             windowManager.addView(marqueeTextView, params)
             isFloatingViewAdded = true
@@ -81,12 +81,10 @@ class FloatingManager {
         marqueeTextView?.apply {
             val textColor =
                 if (floatSetting.darkMode) context.getColor(R.color.white) else context.getColor(R.color.black)
-            val bgColor =
-                if (floatSetting.darkMode) context.getColor(R.color.dark_mode_bg) else context.getColor(
-                    R.color.light_mode_bg
-                )
+            val bgRes =
+                if (floatSetting.darkMode) R.drawable.text_bg_dark else R.drawable.text_bg_light
+            setBackgroundResource(bgRes)
             setTextColor(textColor)
-            setBackgroundColor(bgColor)
         }
         if (settings?.draggable == true) {
             params.flags = params.flags and WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE.inv()

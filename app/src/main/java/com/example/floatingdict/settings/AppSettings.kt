@@ -39,15 +39,16 @@ class AppSettings(context: Context) {
         }
 
     var wordIndexStart: Int
-        get() = mPrefs.getInt(KEY_WORD_INDEX_START, 1)
+        get() = parseIntValue(mPrefs.getString(KEY_WORD_INDEX_START, "0")!!)
         set(index) {
             val editor = mPrefs.edit()
-            editor.putInt(KEY_WORD_INDEX_START, index)
+            editor.putString(KEY_WORD_INDEX_START, index.toString())
             editor.apply()
         }
 
+
     var wordIndexEnd: Int
-        get() = mPrefs.getInt(KEY_WORD_INDEX_END, MAX_WORD_LEVEL)
+        get() = parseIntValue(mPrefs.getString(KEY_WORD_INDEX_END, MAX_WORD_LEVEL.toString())!!)
         set(index) {
             val editor = mPrefs.edit()
             editor.putInt(KEY_WORD_INDEX_END, index)
@@ -60,6 +61,13 @@ class AppSettings(context: Context) {
         wordIndexStart,
         wordIndexEnd
     )
+
+    private fun parseIntValue(intString: String): Int =
+        try {
+            Integer.parseInt(intString)
+        } catch (e: NumberFormatException) {
+            0
+        }
 
     companion object {
         const val PREFERENCES_FILE_NAME = "settings"

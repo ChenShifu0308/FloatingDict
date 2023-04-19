@@ -34,14 +34,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main),
         // Do nothing now because we don't have any sub-preferences.
         return true
     }
-
-    private fun testDB() {
-        lifecycleScope.launchWhenResumed {
-            withContext(Dispatchers.IO) {
-                val db = DictDatabase.getInstance(applicationContext);
-                val allWords: List<Word> = db.getWordByBNCLevel(from = 1, to = 1000)
-                Timber.d("All words count: ${allWords.size}")
-            }
-        }
-    }
 }

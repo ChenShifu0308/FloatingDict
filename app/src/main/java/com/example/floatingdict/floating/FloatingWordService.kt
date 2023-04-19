@@ -5,16 +5,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
-import android.os.Build
-import android.os.IBinder
-import android.view.MotionEvent
-import android.view.View
+import android.os.*
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
+import com.example.floatingdict.data.db.DictDatabase
+import com.example.floatingdict.data.db.DictDatabase.Companion.MAX_WORD_LEVEL
 import com.example.floatingdict.data.model.FloatSetting
 import com.example.floatingdict.data.model.Word
 import com.example.floatingdict.settings.AppSettings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -27,8 +28,31 @@ class FloatingWordService : LifecycleService() {
         }
     }
 
+    private var currentIndex: Int = 0
+    private val updateWordRunnable: Runnable = object : Runnable {
+        override fun run() {
+            /*Select one word which is not shown before*/
+            val words: List<Word> = allWords ?: return
+            val length = words.size
+            val selectedIndex = currentIndex++ % length
+            updateWord(words[selectedIndex])
+            handler.postDelayed(this, UPDATE_DURATION)
+        }
+    }
+
+    private var allWords: List<Word>? = null
+        set(value) {
+            field = value
+            if (appSettings.isFloatWindowEnabled) {
+                handler.removeCallbacksAndMessages(null)
+                handler.postDelayed(updateWordRunnable, UPDATE_DURATION)
+            }
+        }
+    private var startIndex: Int = 0
+    private var endIndex: Int = 0
     private val binder = LocalBinder()
     private val appSettings: AppSettings by lazy { AppSettings(this) }
+    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun onCreate() {
         super.onCreate()
@@ -42,12 +66,27 @@ class FloatingWordService : LifecycleService() {
     }
 
     fun setEnable(floatingEnable: Boolean) {
+        initWordList()
         FloatingManager.getInstance().setEnable(floatingEnable)
+
+        if (floatingEnable) {
+            if (allWords != null) {
+                handler.postDelayed(updateWordRunnable, UPDATE_DURATION)
+            } else {
+                handler.removeCallbacksAndMessages(null)
+            }
+        }
     }
 
     fun updateSettings(floatSetting: FloatSetting) {
         Timber.d("updateSettings: $floatSetting to the floating window.")
         FloatingManager.getInstance().updateSettings(floatSetting)
+        if (startIndex == floatSetting.start && endIndex == floatSetting.end) {
+            Timber.d("No need to update word list.")
+        } else {
+            // Refresh the word list.
+            initWordList()
+        }
     }
 
     private fun updateWord(word: Word) {
@@ -62,9 +101,7 @@ class FloatingWordService : LifecycleService() {
     private fun startNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                "CHANNEL_ID",
-                "My Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                "CHANNEL_ID", "My Channel", NotificationManager.IMPORTANCE_DEFAULT
             )
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
                 channel
@@ -76,5 +113,27 @@ class FloatingWordService : LifecycleService() {
         } else {
             Timber.w("VERSION.SDK_INT < O")
         }
+    }
+
+    private fun initWordList() {
+        lifecycleScope.launchWhenCreated {
+            withContext(Dispatchers.IO) {
+                val db = DictDatabase.getInstance(applicationContext)
+                startIndex = appSettings.wordIndexStart
+                endIndex = appSettings.wordIndexEnd
+                allWords =
+                    if (startIndex <= 0 || endIndex <= 0 || startIndex >= endIndex || startIndex >= MAX_WORD_LEVEL) {
+                        Timber.e("Invalid word index range: $startIndex - $endIndex")
+                        db.getAllWords()
+                    } else {
+                        db.getWordByBNCLevel(from = startIndex, to = endIndex)
+                    }
+                Timber.d("All words count: ${allWords?.size}")
+            }
+        }
+    }
+
+    companion object {
+        private const val UPDATE_DURATION = 3000L
     }
 }

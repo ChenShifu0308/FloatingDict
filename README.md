@@ -91,6 +91,7 @@ It has the basic features below:
 
 #### 原型
 <img decoding="async" src="./doc/prototype.jpg" width="60%">
+
 #### 运行
 
 - 在assets文件夹中解压`dict.sqlite.zip`文件为`dict.sqlite`。（原始文件太大无法上传到github，而且我不想使用git lfs。）
@@ -99,8 +100,10 @@ It has the basic features below:
 #### How to use it
 - 当您第一次安装时，基本上只有设置页面。您需要点击“授予浮动权限”进入设置页面以授予悬浮窗口权限。
 <img decoding="async" src="./doc/first_install.jpeg" width="40%">
+
 - 打开权限开关。
 <img decoding="async" src="./doc/grant_overlay_permission.jpeg" width="40%">
+
 - 现在权限已经被授予。
 <img decoding="async" src="./doc/permission_granted.jpeg" width="40%">
 - 您可以更改浮动视图的主题。
@@ -112,5 +115,6 @@ It has the basic features below:
 - 如果不设置索引。它将从第一个单词开始(按频率排序)。因此建议设置起始索引和结束索引。
 
 <img decoding="async" src="./doc/index_setting.jpeg" width="40%">
+
 - 现在你可以随时背诵单词，比如边刷抖音边背。
 <img decoding="async" src="./doc/floating_above_tiktok.jpeg" width="40%">

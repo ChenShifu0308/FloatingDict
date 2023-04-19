@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">FloatingDict</string>
+    <string name="app_name">Floating Dict</string>
     <string name="title_float_window_enable">Open Floating Window</string>
-    <string name="summary_float_window_enable">Switch on to show the floating window</string>
+    <string name="summary_float_window_enable">Switch on to show the floating window, it is draggable in this page</string>
     <string name="title_float_window_draggable">Draggable</string>
     <string name="title_word_index_start">Set the start index</string>
     <string name="dialog_title_word_index_start">Input a number less than end index</string>
@@ -10,4 +10,10 @@
     <string name="title_reset_button">Reset</string>
     <string name="summary_reset_button">Reset all settings and records</string>
     <string name="title_dark_mode">Dark Mode (Floating Window)</string>
+    <string name="title_open_permission">Grant Floating Permission</string>
+    <string name="open_permission">Click to grant the permission</string>
+    <string name="permission_granted">Floating Permission Granted!</string>
+    <string name="basic_settings">Basic Settings</string>
+    <string name="vocabulary_settings">Vocabulary Settings</string>
+    <string name="reset">Reset</string>
 </resources>

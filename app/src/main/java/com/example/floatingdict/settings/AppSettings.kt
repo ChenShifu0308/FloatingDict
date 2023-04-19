@@ -3,8 +3,11 @@ package com.example.floatingdict.settings
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.floatingdict.data.db.DictDatabase.Companion.MAX_WORD_LEVEL
+import com.example.floatingdict.data.model.FloatSetting
 
-
+/**
+ * The app settings wrapping a [SharedPreferences] instance.
+ */
 class AppSettings(context: Context) {
     private val mPrefs: SharedPreferences
 
@@ -51,13 +54,21 @@ class AppSettings(context: Context) {
             editor.apply()
         }
 
+    fun getFloatSetting(): FloatSetting = FloatSetting(
+        isFloatWindowDraggable,
+        isDarkMode,
+        wordIndexStart,
+        wordIndexEnd
+    )
+
     companion object {
         const val PREFERENCES_FILE_NAME = "settings"
 
-        private const val KEY_FLOAT_WINDOW_ENABLE = "float_window_enable"
-        private const val KEY_FLOAT_WINDOW_DRAGGABLE = "float_window_draggable"
-        private const val KEY_DARK_MODE = "dark_mode"
-        private const val KEY_WORD_INDEX_START = "word_index_start"
-        private const val KEY_WORD_INDEX_END = "word_index_end"
+        const val KEY_PERMISSION_BUTTON = "permission_button"
+        const val KEY_FLOAT_WINDOW_ENABLE = "float_window_enable"
+        const val KEY_FLOAT_WINDOW_DRAGGABLE = "float_window_draggable"
+        const val KEY_DARK_MODE = "dark_mode"
+        const val KEY_WORD_INDEX_START = "word_index_start"
+        const val KEY_WORD_INDEX_END = "word_index_end"
     }
 }

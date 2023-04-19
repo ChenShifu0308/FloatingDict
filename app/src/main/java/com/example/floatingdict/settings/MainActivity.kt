@@ -24,9 +24,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main),
                 add<SettingsFragment>(R.id.fragment_container_view)
             }
         }
-        title = "Settings"
-
-        testDB()
+        title = getString(R.string.app_name)
     }
 
     override fun onPreferenceStartFragment(

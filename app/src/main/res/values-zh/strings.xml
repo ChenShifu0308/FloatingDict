@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">浮动背单词</string>
+    <string name="title_float_window_enable">开启浮动窗口</string>
+    <string name="summary_float_window_enable">打开以显示浮动窗口,在本页时可以拖动设置位置</string>
+    <string name="title_float_window_draggable">可拖动</string>
+    <string name="title_word_index_start">设置起始索引</string>
+    <string name="dialog_title_word_index_start">输入小于结束索引的数字</string>
+    <string name="title_word_index_end">设置结束索引</string>
+    <string name="dialog_title_word_index_end">输入大于起始索引但小于20000的数字</string>
+    <string name="title_reset_button">重置</string>
+    <string name="summary_reset_button">重置所有设置和记录</string>
+    <string name="title_dark_mode">暗黑模式（浮动窗口）</string>
+    <string name="title_open_permission">授予浮动权限</string>
+    <string name="open_permission">点击以授予权限</string>
+    <string name="permission_granted">浮动权限已授予！</string>
+    <string name="basic_settings">基本设置</string>
+    <string name="vocabulary_settings">字典背诵设置</string>
+    <string name="reset">重置</string>
+</resources>

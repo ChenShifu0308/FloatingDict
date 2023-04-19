@@ -78,29 +78,3 @@ class FloatingWordService : LifecycleService() {
         }
     }
 }
-
-private class FloatingOnTouchListener : View.OnTouchListener {
-    private var x = 0
-    private var y = 0
-    override fun onTouch(view: View?, event: MotionEvent): Boolean {
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                x = event.rawX.toInt()
-                y = event.rawY.toInt()
-            }
-            MotionEvent.ACTION_MOVE -> {
-                val nowX = event.rawX.toInt()
-                val nowY = event.rawY.toInt()
-                val movedX = nowX - x
-                val movedY = nowY - y
-                x = nowX
-                y = nowY
-//                layoutParams.x = layoutParams.x + movedX
-//                layoutParams.y = layoutParams.y + movedY
-//                windowManager.updateViewLayout(view, layoutParams)
-            }
-            else -> {}
-        }
-        return false
-    }
-}

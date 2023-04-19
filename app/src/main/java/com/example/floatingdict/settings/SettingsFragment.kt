@@ -1,9 +1,14 @@
 package com.example.floatingdict.settings
 
 import android.app.Activity
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import androidx.core.os.HandlerCompat.postDelayed
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -39,6 +44,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        appSettings.isFloatWindowDraggable = true
+        floatingWordService?.updateSettings(appSettings.getFloatSetting())
+    }
+
+    override fun onStop() {
+        super.onStop()
+        appSettings.isFloatWindowDraggable = false
+        floatingWordService?.updateSettings(appSettings.getFloatSetting())
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val manager: PreferenceManager = preferenceManager
@@ -76,13 +92,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
 
-        /*TODO: we can set it to be draggable only when this fragment is on the top*/
         val darkModeSwitch: SwitchPreferenceCompat? =
             findPreference(AppSettings.KEY_DARK_MODE)
         darkModeSwitch?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
                 Timber.d("Dark mode settings newValue: $newValue")
-                floatingWordService?.updateSettings(appSettings.getFloatSetting())
+                Handler().post() {
+                    floatingWordService?.updateSettings(appSettings.getFloatSetting())
+                }
                 true
             }
     }

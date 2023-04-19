@@ -1,8 +1,10 @@
 package com.example.floatingdict.floating.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
 
 class MarqueeTextView @JvmOverloads constructor(
@@ -10,7 +12,6 @@ class MarqueeTextView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
-
     init {
         this.ellipsize = TextUtils.TruncateAt.MARQUEE;
         this.marqueeRepeatLimit = -1;

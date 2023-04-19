@@ -12,9 +12,9 @@
             app:key="float_window_enable"
             app:summary="@string/summary_float_window_enable"
             app:title="@string/title_float_window_enable" />
-        <SwitchPreferenceCompat
-            app:key="float_window_draggable"
-            app:title="@string/title_float_window_draggable" />
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="float_window_draggable"-->
+<!--            app:title="@string/title_float_window_draggable" />-->
 
         <SwitchPreferenceCompat
             app:key="dark_mode"

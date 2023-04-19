@@ -20,9 +20,7 @@ It has the basic features below:
   the records would be reset after the word list configuration is changed.
 
 #### Prototype
-
-[![Prototype](/doc/prototype.jpg)]
-
+<img decoding="async" src="./doc/prototype.jpg" width="60%">
 #### Run
 
 - unzip the dict.sqlite.zip file in the assets folder.(The original file is too large to upload to
@@ -57,4 +55,4 @@ It has the basic features below:
 
 #### Floating
 
-- https://github.com/princekin-f/EasyFloat
+- ~~https://github.com/princekin-f/EasyFloat~~ It can not meet my needs perfectly. So I only extract some of it.

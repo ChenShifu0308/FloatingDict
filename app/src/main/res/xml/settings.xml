@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Settings">
+    <PreferenceCategory app:title="Basic Settings">
         <SwitchPreferenceCompat
             app:key="float_window_enable"
             app:summary="@string/summary_float_window_enable"
@@ -11,6 +11,30 @@
             app:key="float_window_draggable"
             app:title="@string/title_float_window_draggable" />
 
+        <SwitchPreferenceCompat
+            app:key="dark_mode"
+            app:title="@string/title_dark_mode" />
+
     </PreferenceCategory>
+    <PreferenceCategory app:title="Vocabulary Settings">
+        <EditTextPreference
+            app:dialogTitle="@string/dialog_title_word_index_start"
+            app:key="word_index_start"
+            app:title="@string/title_word_index_start"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:dialogTitle="@string/dialog_title_word_index_end"
+            app:key="word_index_end"
+            app:title="@string/title_word_index_end"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Reset">
+        <Preference
+            app:key="reset_button"
+            app:summary="@string/summary_reset_button"
+            app:title="@string/title_reset_button" />
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

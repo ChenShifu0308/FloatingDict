@@ -1,4 +1,4 @@
-package com.example.floatingdict
+package com.example.floatingdict.settings
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,6 +8,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
+import com.example.floatingdict.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
     private val sharedPreferences: SharedPreferences by lazy {

@@ -1,4 +1,4 @@
-package com.example.floatingdict
+package com.example.floatingdict.settings
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.example.floatingdict.R
 
 class MainActivity : AppCompatActivity(R.layout.activity_main),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {

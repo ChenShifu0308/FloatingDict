@@ -35,6 +35,7 @@ It has the basic features below:
 - Now the permission is granted.
 <img decoding="async" src="./doc/permission_granted.jpeg" width="40%">
 - You can change the theme of the floating view.
+
 |  Ligth Mode  | Dark Mode  |
 |:------------:|:--------------:|
 |![theme_light](/doc/theme_light.jpeg) | ![theme_dark](/doc/theme_dark.jpeg)|
@@ -73,3 +74,43 @@ It has the basic features below:
 #### Floating
 
 - ~~https://github.com/princekin-f/EasyFloat~~ It can not meet my needs perfectly. So I only extract some of it.
+
+
+
+# 浮动背单词
+
+我一直想要一个能够在浮动窗口中背单词的词典，可以一直显示在其他窗口的最上层，这样我就可以在做其他事情的同时背单词。所以我做了这个。
+
+# 最小可行产品原型
+
+这个词典的第一个版本是一个MVP（最小可行产品）。我希望它非常简单，但完全满足我的需求。它具有以下基本功能：
+
+- 一个浮动窗口来显示单词的含义。浮动窗口可以一直显示在其他窗口的最上层，并且单词会在显示一段时间后更换为下一个单词。
+- 一个单词列表来背诵。我选择使用频率顺序来显示单词，同时可以配置起始和结束索引。
+- 在浮动窗口中显示的单词可以按随机顺序或顺序背诵。但是它应该记录已显示的单词并在所有单词都显示过后不再显示它们。在更改单词列表配置后，记录将被重置。
+
+#### 原型
+<img decoding="async" src="./doc/prototype.jpg" width="60%">
+#### 运行
+
+- 在assets文件夹中解压`dict.sqlite.zip`文件为`dict.sqlite`。（原始文件太大无法上传到github，而且我不想使用git lfs。）
+- 然后就可以build啦。
+
+#### How to use it
+- 当您第一次安装时，基本上只有设置页面。您需要点击“授予浮动权限”进入设置页面以授予悬浮窗口权限。
+<img decoding="async" src="./doc/first_install.jpeg" width="40%">
+- 打开权限开关。
+<img decoding="async" src="./doc/grant_overlay_permission.jpeg" width="40%">
+- 现在权限已经被授予。
+<img decoding="async" src="./doc/permission_granted.jpeg" width="40%">
+- 您可以更改浮动视图的主题。
+
+|  浅色模式  | 深色模式  |
+|:------------:|:--------------:|
+|![theme_light](/doc/theme_light.jpeg) | ![theme_dark](/doc/theme_dark.jpeg)|
+
+- 如果不设置索引。它将从第一个单词开始(按频率排序)。因此建议设置起始索引和结束索引。
+
+<img decoding="async" src="./doc/index_setting.jpeg" width="40%">
+- 现在你可以随时背诵单词，比如边刷抖音边背。
+<img decoding="async" src="./doc/floating_above_tiktok.jpeg" width="40%">

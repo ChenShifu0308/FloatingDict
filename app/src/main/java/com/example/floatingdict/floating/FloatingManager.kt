@@ -15,6 +15,9 @@ import com.example.floatingdict.data.model.Word
 import com.example.floatingdict.floating.view.FloatingView
 import com.example.floatingdict.settings.AppSettings
 
+/**
+ * A manager that manages the floating view.
+ */
 class FloatingManager {
     private var isFloatingViewAdded: Boolean = false
     var settings: FloatSetting? = null

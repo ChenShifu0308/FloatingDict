@@ -45,9 +45,33 @@ class DictDatabase(context: Context) :
     }
 
     @WorkerThread
-    override fun getAllWords(): List<Word> {
+    override fun getAllWords(filterLexicon: String?): List<Word> {
+        if (filterLexicon != null) {
+            return queryWords(
+                projectionIn = arrayOf(
+                    WORD_ID,
+                    WORD_CONTENT,
+                    PHONETIC_US,
+                    TRANSLATION,
+                    WORD_TAGS,
+                    BNC_LEVEL
+                ),
+                selection = "$WORD_TAGS LIKE ?",
+                selectionArgs = arrayOf("%$filterLexicon%"),
+                groupBy = null,
+                having = null,
+                sortOrder = null,
+            )
+        }
         return queryWords(
-            projectionIn = arrayOf(WORD_ID, WORD_CONTENT, PHONETIC_US, TRANSLATION, BNC_LEVEL),
+            projectionIn = arrayOf(
+                WORD_ID,
+                WORD_CONTENT,
+                PHONETIC_US,
+                TRANSLATION,
+                WORD_TAGS,
+                BNC_LEVEL
+            ),
             selection = "$BNC_LEVEL > ?",
             selectionArgs = arrayOf("0"),
             groupBy = null,

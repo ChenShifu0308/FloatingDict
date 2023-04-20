@@ -13,18 +13,17 @@ class FloatingView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayoutCompat(context, attrs, defStyleAttr) {
     private var screenWidth: Int = 0
-
     private var wordTextView: TextView
     private var translationTextView: MarqueeTextView
 
     init {
         this.orientation = HORIZONTAL
         wordTextView = TextView(context)
-        wordTextView.textSize = 11f
+        wordTextView.textSize = DEFAULT_TEXT_SIZE
 
         translationTextView = MarqueeTextView(context)
         translationTextView.text = "  Ready?  "
-        translationTextView.textSize = 11f
+        translationTextView.textSize = DEFAULT_TEXT_SIZE
 
         addView(wordTextView)
         addView(translationTextView)
@@ -33,6 +32,12 @@ class FloatingView @JvmOverloads constructor(
         val metrics = DisplayMetrics()
         wm.defaultDisplay.getMetrics(metrics)
         screenWidth = metrics.widthPixels
+    }
+
+
+    fun setFontSize(fontSize: Float) {
+        wordTextView.textSize = fontSize
+        translationTextView.textSize = fontSize
     }
 
     fun setTextColor(textColor: Int) {
@@ -56,5 +61,13 @@ class FloatingView @JvmOverloads constructor(
                 setMeasuredDimension(halfWidth.toInt(), height)
             }
         }
+    }
+
+    companion object {
+        const val DEFAULT_TEXT_SIZE = 16f
+
+        const val TEXT_SIZE_LARGE = 20f
+        const val TEXT_SIZE_SMALL = 13f
+
     }
 }

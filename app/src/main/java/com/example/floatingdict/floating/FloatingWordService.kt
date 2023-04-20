@@ -17,6 +17,7 @@ import com.example.floatingdict.settings.AppSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 
 /**
  * A foreground service that shows a floating word.
@@ -28,13 +29,20 @@ class FloatingWordService : LifecycleService() {
         }
     }
 
+    private var currentLexicon: Lexicon? = null
     private var currentIndex: Int = 0
+    private val random = Random()
     private val updateWordRunnable: Runnable = object : Runnable {
         override fun run() {
             /*Select one word which is not shown before*/
             val words: List<Word> = allWords ?: return
             val length = words.size
-            val selectedIndex = currentIndex++ % length
+            val selectedIndex = if (appSettings.wordOrderRandom) {
+                random.nextInt(length)
+            } else {
+                currentIndex++ % length
+            }
+            Timber.d("selected index is $selectedIndex")
             updateWord(words[selectedIndex])
             handler.postDelayed(this, UPDATE_DURATION)
         }
@@ -66,7 +74,7 @@ class FloatingWordService : LifecycleService() {
     }
 
     fun setEnable(floatingEnable: Boolean) {
-        initWordList()
+        initWordList(Lexicon.fromName(appSettings.lexiconSelect))
         FloatingManager.getInstance().setEnable(floatingEnable)
 
         if (floatingEnable) {
@@ -81,12 +89,17 @@ class FloatingWordService : LifecycleService() {
     fun updateSettings(floatSetting: FloatSetting) {
         Timber.d("updateSettings: $floatSetting to the floating window.")
         FloatingManager.getInstance().updateSettings(floatSetting)
-        if (startIndex == floatSetting.start && endIndex == floatSetting.end) {
-            Timber.d("No need to update word list.")
-        } else {
-            // Refresh the word list.
-            currentIndex = 0 // Reset the index.
-            initWordList()
+        val newLexicon = Lexicon.fromName(floatSetting.lexiconSelect)
+        if (currentLexicon != newLexicon) {
+            initWordList(newLexicon)
+        } else if (newLexicon == Lexicon.All) {
+            // Update the word list if the word index range is changed.
+            if (startIndex == floatSetting.start && endIndex == floatSetting.end) {
+                Timber.d("No need to update word list.")
+            } else {
+                currentIndex = 0 // Reset the index.
+                initWordList(Lexicon.fromName(appSettings.lexiconSelect))
+            }
         }
     }
 
@@ -116,20 +129,41 @@ class FloatingWordService : LifecycleService() {
         }
     }
 
-    private fun initWordList() {
+    private fun initWordList(lexicon: Lexicon) {
+        currentLexicon = lexicon
         lifecycleScope.launchWhenCreated {
             withContext(Dispatchers.IO) {
                 val db = DictDatabase.getInstance(applicationContext)
                 startIndex = appSettings.wordIndexStart
                 endIndex = appSettings.wordIndexEnd
-                allWords =
-                    if (startIndex <= 0 || endIndex <= 0 || startIndex >= endIndex || startIndex >= MAX_WORD_LEVEL) {
-                        Timber.e("Invalid word index range: $startIndex - $endIndex")
-                        db.getAllWords()
-                    } else {
-                        db.getWordByBNCLevel(from = startIndex, to = endIndex)
-                    }
+                allWords = getWordListFromDb(db, lexicon, startIndex, endIndex)
                 Timber.d("All words count: ${allWords?.size}")
+            }
+        }
+    }
+
+    private fun getWordListFromDb(
+        db: DictDatabase,
+        lexicon: Lexicon,
+        startIndex: Int,
+        endIndex: Int
+    ): List<Word>? {
+        return when (lexicon) {
+            Lexicon.All -> {
+                if (startIndex <= 0 || endIndex <= 0 || startIndex >= endIndex || startIndex >= MAX_WORD_LEVEL) {
+                    Timber.e("Invalid word index range: $startIndex - $endIndex")
+                    db.getAllWords()
+                } else {
+                    db.getWordByBNCLevel(from = startIndex, to = endIndex)
+                }
+            }
+            Lexicon.CET,
+            Lexicon.IELTS,
+            Lexicon.TOEFL,
+            Lexicon.GRE,
+            Lexicon.CET4,
+            Lexicon.CET6 -> {
+                db.getAllWords(lexicon.name)
             }
         }
     }
@@ -137,4 +171,30 @@ class FloatingWordService : LifecycleService() {
     companion object {
         private const val UPDATE_DURATION = 5000L
     }
+}
+
+enum class Lexicon(name: String) {
+    All("all"),
+    CET("cet"),
+    IELTS("ielts"),
+    TOEFL("toefl"),
+    GRE("gre"),
+    CET4("cet4"),
+    CET6("cet6");
+
+    companion object {
+        fun fromName(name: String): Lexicon {
+            return when (name) {
+                "all" -> All
+                "cet" -> CET
+                "ielts" -> IELTS
+                "toefl" -> TOEFL
+                "gre" -> GRE
+                "cet4" -> CET4
+                "cet6" -> CET6
+                else -> All
+            }
+        }
+    }
+
 }

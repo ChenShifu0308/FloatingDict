@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2018 Google LLC
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        https://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ -->
+<resources>
+    <string-array name="entry_values">
+        <item>all</item>
+        <item>cet</item>
+        <item>ielts</item>
+        <item>toefl</item>
+        <item>gre</item>
+        <item>cet4</item>
+        <item>cet6</item>
+    </string-array>
+
+    <string-array name="entries">
+        <item>All</item>
+        <item>CET</item>
+        <item>IELTS</item>
+        <item>TOEFL</item>
+        <item>GRE</item>
+        <item>CET4</item>
+        <item>CET6</item>
+    </string-array>
+
+    <!--Saved in SP-->
+    <string-array name="font_size_entry_values">
+        <item>small</item>
+        <item>normal</item>
+        <item>large</item>
+    </string-array>
+
+    <!--For human read-->
+    <string-array name="font_size_entries">
+        <item>SMALL</item>
+        <item>NORMAL</item>
+        <item>LARGE</item>
+    </string-array>
+</resources>

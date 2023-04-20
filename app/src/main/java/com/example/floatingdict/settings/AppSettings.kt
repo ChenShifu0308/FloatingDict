@@ -55,11 +55,39 @@ class AppSettings(context: Context) {
             editor.apply()
         }
 
+    var wordFontSize: String
+        get() = mPrefs.getString(KEY_WORD_FONT_SIZE, "normal")!!
+        set(value) {
+            val editor = mPrefs.edit()
+            editor.putString(KEY_WORD_FONT_SIZE, value)
+            editor.apply()
+        }
+
+    var wordOrderRandom: Boolean
+        get() = mPrefs.getBoolean(KEY_WORD_ORDER_RANDOM, false)
+        set(random) {
+            val editor = mPrefs.edit()
+            editor.putBoolean(KEY_WORD_ORDER_RANDOM, random)
+            editor.apply()
+        }
+
+    var lexiconSelect: String
+        get() = mPrefs.getString(KEY_WORD_LEXICON_SELECT, "all")!!
+        set(value) {
+            val editor = mPrefs.edit()
+            editor.putString(KEY_WORD_LEXICON_SELECT, value)
+            editor.apply()
+        }
+
+
     fun getFloatSetting(): FloatSetting = FloatSetting(
         isFloatWindowDraggable,
         isDarkMode,
         wordIndexStart,
-        wordIndexEnd
+        wordIndexEnd,
+        wordFontSize,
+        wordOrderRandom,
+        lexiconSelect
     )
 
     private fun parseIntValue(intString: String): Int =
@@ -78,5 +106,9 @@ class AppSettings(context: Context) {
         const val KEY_DARK_MODE = "dark_mode"
         const val KEY_WORD_INDEX_START = "word_index_start"
         const val KEY_WORD_INDEX_END = "word_index_end"
+
+        const val KEY_WORD_FONT_SIZE = "font_size"
+        const val KEY_WORD_ORDER_RANDOM= "order_random"
+        const val KEY_WORD_LEXICON_SELECT = "lexicon_select"
     }
 }

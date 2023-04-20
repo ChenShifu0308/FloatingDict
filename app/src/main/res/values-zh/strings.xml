@@ -16,4 +16,11 @@
     <string name="basic_settings">基本设置</string>
     <string name="vocabulary_settings">字典背诵设置(数字越大越难，词频越低)</string>
     <string name="reset">重置</string>
+    <string name="lexicon_select">词库选择</string>
+    <string name="dialog_title_list_preference">选择一个词库</string>
+    <string name="title_lexicon_select">词库选择</string>
+    <string name="dialog_title_font_size">字体大小</string>
+    <string name="title_font_size">字体大小</string>
+    <string name="title_order_random">随机顺序</string>
+    <string name="summary_order_random">打开后按随机顺序背诵，默认为顺序背诵</string>
 </resources>

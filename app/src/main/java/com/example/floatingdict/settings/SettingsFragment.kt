@@ -9,11 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import androidx.core.os.HandlerCompat.postDelayed
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.*
 import com.example.floatingdict.R
 import com.example.floatingdict.floating.FloatingWordService
 import com.example.floatingdict.floating.permission.OnPermissionResult
@@ -25,6 +21,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
     /*TODO: use ViewModel to make them responsible*/
     var permissionButton: Preference? = null
     var enableSettings: SwitchPreferenceCompat? = null
+    var startIndexPreference: EditTextPreference? = null
+    var endIndexPreference: EditTextPreference? = null
+
     private var floatingWordService: FloatingWordService? = null
 
     private val appSettings: AppSettings by lazy {
@@ -93,32 +92,44 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
 
-        val darkModeSwitch: SwitchPreferenceCompat? =
-            findPreference(AppSettings.KEY_DARK_MODE)
-        darkModeSwitch?.onPreferenceChangeListener =
+        findPreference<SwitchPreferenceCompat>(AppSettings.KEY_DARK_MODE)?.onPreferenceChangeListener =
+            updateListeners
+        startIndexPreference = findPreference<EditTextPreference>(AppSettings.KEY_WORD_INDEX_START)
+        startIndexPreference?.onPreferenceChangeListener =
+            updateListeners
+        endIndexPreference = findPreference<EditTextPreference>(AppSettings.KEY_WORD_INDEX_END)
+        endIndexPreference?.onPreferenceChangeListener =
+            updateListeners
+        if(appSettings.lexiconSelect != "all") {
+            startIndexPreference?.isEnabled = false
+            endIndexPreference?.isEnabled = false
+        }
+
+        findPreference<ListPreference>(AppSettings.KEY_WORD_FONT_SIZE)?.onPreferenceChangeListener =
+            updateListeners
+        findPreference<SwitchPreferenceCompat>(AppSettings.KEY_WORD_ORDER_RANDOM)?.onPreferenceChangeListener =
+            updateListeners
+        findPreference<ListPreference>(AppSettings.KEY_WORD_LEXICON_SELECT)?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
-                Timber.d("Dark mode settings newValue: $newValue")
-                updateSettings()
+                if (newValue != "all") {
+                    startIndexPreference?.isEnabled = false
+                    endIndexPreference?.isEnabled = false
+                } else {
+                    startIndexPreference?.isEnabled = true
+                    endIndexPreference?.isEnabled = true
+                }
+                updateListeners.onPreferenceChange(preference, newValue)
                 true
             }
 
-        /*Index setting*/
-        val startIndexPreference: EditTextPreference? =
-            findPreference(AppSettings.KEY_WORD_INDEX_START)
-        startIndexPreference?.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { preference, newValue ->
-                Timber.d("Start index settings newValue: $newValue")
-                updateSettings()
-                true
-            }
-        val endIndexPreference: EditTextPreference? = findPreference(AppSettings.KEY_WORD_INDEX_END)
-        endIndexPreference?.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { preference, newValue ->
-                Timber.d("End index settings newValue: $newValue")
-                updateSettings()
-                true
-            }
     }
+
+    private val updateListeners: Preference.OnPreferenceChangeListener =
+        Preference.OnPreferenceChangeListener { preference, newValue ->
+            Timber.d("Settings newValue: $newValue")
+            updateSettings()
+            true
+        }
 
     private fun updateSettings() {
         Handler().post() {

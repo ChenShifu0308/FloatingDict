@@ -5,6 +5,7 @@ sealed class Word(
     open val wordContent: String,
     open val phonetic_US: String,
     open val translation: String,
+    open val wordTags: String,
     open val bncLevel: Int,
 ) {
     fun toFloatingString(): String {
@@ -16,8 +17,9 @@ sealed class Word(
         override val wordContent: String,
         override val phonetic_US: String,
         override val translation: String,
+        override val wordTags: String,
         override val bncLevel: Int,
-    ) : Word(wordID, wordContent, phonetic_US, translation, bncLevel)
+    ) : Word(wordID, wordContent, phonetic_US, translation, wordTags, bncLevel)
 
     data class FullWord(
         override val wordID: String,
@@ -26,12 +28,12 @@ sealed class Word(
         override val phonetic_US: String,
         val definition: String,
         override val translation: String,
-        val wordTags: String,
+        override val wordTags: String,
         val wordExchanges: String,
         override val bncLevel: Int,
         val frqLevel: Int,
         val collinsLevel: Int,
         val oxfordLevel: Int,
         val exampleSentences: String,
-    ) : Word(wordID, wordContent, phonetic_US, translation, bncLevel)
+    ) : Word(wordID, wordContent, phonetic_US, translation, wordTags, bncLevel)
 }

@@ -1,5 +1,9 @@
 # Floating Dictionary
 [中文](#浮动背单词)
+### Updates
+- 2023-04-20 
+  Add `Radom Order`,`Font Size Selection` and `Lexicon Selection`.
+
 
 I always want to have a dictionary to have the feature of reciting words with a floating window,
 which can be always on top of other windows.

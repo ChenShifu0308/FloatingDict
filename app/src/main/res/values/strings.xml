@@ -16,4 +16,11 @@
     <string name="basic_settings">Basic Settings</string>
     <string name="vocabulary_settings">Vocabulary Settings</string>
     <string name="reset">Reset</string>
+    <string name="lexicon_select">Lexicon Select</string>
+    <string name="dialog_title_list_preference">Select a lexicon</string>
+    <string name="title_lexicon_select">Lexicon Select</string>
+    <string name="dialog_title_font_size">Font Size</string>
+    <string name="title_font_size">Font Size</string>
+    <string name="title_order_random">Random Order</string>
+    <string name="summary_order_random">Turn on to recite randomly, defalt by order</string>
 </resources>

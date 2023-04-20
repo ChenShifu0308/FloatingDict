@@ -84,6 +84,13 @@ class FloatingManager {
                 if (floatSetting.darkMode) R.drawable.text_bg_dark else R.drawable.text_bg_light
             setBackgroundResource(bgRes)
             setTextColor(textColor)
+            val fontSize = when (floatSetting.wordFontSize) {
+                "small" -> FloatingView.TEXT_SIZE_SMALL
+                "normal" -> FloatingView.DEFAULT_TEXT_SIZE
+                "large" -> FloatingView.TEXT_SIZE_LARGE
+                else -> FloatingView.DEFAULT_TEXT_SIZE
+            }
+            setFontSize(fontSize)
         }
         if (settings?.draggable == true) {
             params.flags = params.flags and WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE.inv()

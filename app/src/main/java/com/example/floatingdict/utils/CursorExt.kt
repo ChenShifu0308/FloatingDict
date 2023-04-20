@@ -21,8 +21,9 @@ internal fun Cursor.toSimpleWord(): Word.SimpleWord {
     val wordContent = getColumnIndex(WORD_CONTENT).takeIf { it > -1 }?.let { getString(it) } ?: ""
     val phoneticUS = getColumnIndex(PHONETIC_US).takeIf { it > -1 }?.let { getString(it) } ?: ""
     val translation = getColumnIndex(TRANSLATION).takeIf { it > -1 }?.let { getString(it) } ?: ""
+    val wordTag = getColumnIndex(WORD_TAGS).takeIf { it > -1 }?.let { getString(it) } ?: ""
     val bncLevel = getColumnIndex(BNC_LEVEL).takeIf { it > -1 }?.let { getInt(it) } ?: 0
-    return Word.SimpleWord(wordId, wordContent, phoneticUS, translation, bncLevel)
+    return Word.SimpleWord(wordId, wordContent, phoneticUS, translation, wordTag, bncLevel)
 }
 
 internal fun Cursor.toFullWord(): Word.FullWord {

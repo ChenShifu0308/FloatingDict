@@ -20,8 +20,21 @@
             app:key="dark_mode"
             app:title="@string/title_dark_mode" />
 
+        <ListPreference
+            app:defaultValue="normal"
+            app:dialogTitle="@string/dialog_title_font_size"
+            app:entries="@array/font_size_entries"
+            app:entryValues="@array/font_size_entry_values"
+            app:key="font_size"
+            app:title="@string/title_font_size"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/vocabulary_settings">
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="order_random"
+            app:summary="@string/summary_order_random"
+            app:title="@string/title_order_random" />
         <EditTextPreference
             app:dialogTitle="@string/dialog_title_word_index_start"
             app:key="word_index_start"
@@ -34,10 +47,14 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <!--    <PreferenceCategory app:title="@string/reset">-->
-    <!--        <Preference-->
-    <!--            app:key="reset_button"-->
-    <!--            app:summary="@string/summary_reset_button"-->
-    <!--            app:title="@string/title_reset_button" />-->
-    <!--    </PreferenceCategory>-->
+    <PreferenceCategory app:title="@string/lexicon_select">
+        <ListPreference
+            app:defaultValue="all"
+            app:dialogTitle="@string/dialog_title_list_preference"
+            app:entries="@array/entries"
+            app:entryValues="@array/entry_values"
+            app:key="lexicon_select"
+            app:title="@string/title_lexicon_select"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 </PreferenceScreen>

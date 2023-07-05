@@ -1,1 +1,17 @@
-Test
+name: create-ci-branch
+run-name: ${{ github.actor }} creating branch ci-TicketID-${{ github.actor }}
+on: 
+  workflow_dispatch:
+    inputs:
+      ticket:
+        description: 'Input ticket id'     
+        required: true
+        default: 'NA'
+jobs:
+  create_ci_branch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+    - name: Create ci- branch
+      run: git checkout -b ci-${{ github.actor }}-${{ github.event.inputs.ticket }}

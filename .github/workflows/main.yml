@@ -13,5 +13,7 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v3
-    - name: Create ci- branch
+    - name: Create branch with prefix ci-
       run: git checkout -b ci-${{ github.actor }}-${{ github.event.inputs.ticket }}
+    - name: Push new branch to github
+      run: git push origin ci-${{ github.actor }}-${{ github.event.inputs.ticket }}
